@@ -57,6 +57,7 @@
 </div>
 
 <script>
+const LIFF_ID = "2008637844-YZWMePwa"
 /* ⭐ FLEX CARD */
 const flexMessage = {
   type: "flex",
@@ -111,19 +112,16 @@ const flexMessage = {
   }
 };
 
-
-async function shareFlex() {
-    await liff.init({ liffId: "2008637844-YZWMePwa" });
-
-    if (!liff.isLoggedIn()) {
-        liff.login();
-        return;
-    }
-
-    liff.shareTargetPicker([flexMessage])
-        .catch(err => console.error(err));
+async function initLiff(){
+  await liff.init({ liffId: LIFF_ID });
 }
-</script>
 
-</body>
-</html>
+async function shareFlex(){
+  await liff.shareTargetPicker([flexMessage]);
+}
+
+window.onload = async ()=>{
+  await initLiff();
+  document.getElementById("shareBtn").onclick = shareFlex;
+};
+</script>
