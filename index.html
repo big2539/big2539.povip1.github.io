@@ -9,7 +9,7 @@
 
 <style>
 /* ========================= */
-/* 🌈 พื้นหลังนีออน + ไล่สี */
+/* ⚡ พื้นหลังลายสายฟ้า + Glow */
 /* ========================= */
 body {
     margin: 0;
@@ -20,19 +20,33 @@ body {
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    background: #000;
+    background: #05060d;
 }
 
-/* แสงนีออนเคลื่อนไหว */
+/* เลเยอร์ลายสายฟ้า */
 body::before {
     content: "";
-    position: absolute;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle at center, #5500ff55, #000 70%),
-                conic-gradient(#ff00cc, #ff8800, #ffee00, #00ff88, #00ccff, #9900ff, #ff00cc);
-    filter: blur(100px);
-    animation: neonMove 15s linear infinite;
+    position: fixed;
+    inset: 0;
+    background-image:
+        url('https://i.ibb.co/3vHqF0M/lightning-blue-purple.png');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.25;
+    z-index: 0;
+}
+
+/* เลเยอร์ Glow เคลื่อนไหว */
+body::after {
+    content: "";
+    position: fixed;
+    width: 220%;
+    height: 220%;
+    background: conic-gradient(#7300ff, #0055ff, #00ddff, #00ffaa, #0055ff, #9900ff);
+    filter: blur(180px);
+    animation: neonMove 25s linear infinite;
+    opacity: 0.25;
+    z-index: 0;
 }
 
 @keyframes neonMove {
@@ -42,7 +56,7 @@ body::before {
 }
 
 /* ========================= */
-/* กล่องหลัก                   */
+/* กล่องหลัก */
 /* ========================= */
 .container {
     position: relative;
@@ -53,7 +67,7 @@ body::before {
 }
 
 /* ========================= */
-/* 🔥 ภาพ + เอฟเฟกต์ไฟวิ่งรอบกรอบ */
+/* 🔥 กรอบภาพไฟวิ่ง */
 /* ========================= */
 .img-frame {
     position: relative;
@@ -67,16 +81,7 @@ body::before {
     position: absolute;
     inset: -5px;
     border-radius: 28px;
-    background: conic-gradient(
-        #ff00cc,
-        #ffaa00,
-        #ffee00,
-        #00ff55,
-        #00ccff,
-        #7700ff,
-        #ff00aa,
-        #ff00cc
-    );
+    background: conic-gradient(#00eaff, #8b00ff, #00eaff);
     animation: spinBorder 4s linear infinite;
     mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     mask-composite: exclude;
@@ -94,7 +99,7 @@ body::before {
 }
 
 /* ========================= */
-/* 🟣 ปุ่มแชร์แบบ PREMIUM */
+/* ปุ่มแชร์ */
 /* ========================= */
 .share-btn {
     width: 100%;
@@ -102,18 +107,17 @@ body::before {
     padding: 18px;
     font-size: 22px;
     border-radius: 18px;
-    background: linear-gradient(135deg, #ff00e6, #ffaa00);
+    background: linear-gradient(135deg, #6a00ff, #00eaff);
     color: #fff;
     font-weight: 900;
-    box-shadow: 0 0 30px #ff0095;
+    box-shadow: 0 0 25px #6a00ff;
     animation: pulseShare 2s infinite alternate;
 }
 
 @keyframes pulseShare {
-    0% { box-shadow: 0 0 12px #ff0095; }
-    100% { box-shadow: 0 0 35px #ffaa00; }
+    0% { box-shadow: 0 0 12px #6a00ff; }
+    100% { box-shadow: 0 0 35px #00eaff; }
 }
-
 </style>
 </head>
 
@@ -121,26 +125,33 @@ body::before {
 
 <div class="container">
 
-    <!-- 🔥 กรอบไฟวิ่งรูป -->
     <div class="img-frame">
         <img src="https://img5.pic.in.th/file/secure-sv1/image---2025-12-06T115418.141.png"
              class="main-img">
     </div>
 
-    <!-- 📤 ปุ่มแชร์ -->
     <div class="share-btn" id="shareBtn">📤 แชร์ให้เพื่อน</div>
 </div>
 
 <script>
 const LIFF_ID = "2008637844-YZWMePwa";
 
-/* ⭐ FLEX แบบแต่งพื้นหลัง + กรอบเรืองแสง */
+/* ========================= */
+/* ⭐ FLEX แบบ Glow ฟ้า–ม่วง */
+/* ========================= */
 const flexMessage = {
   type: "flex",
-  altText: "🎰 โปรโมชั่นพิเศษ! รับสิทธิ์เลย",
+  altText: "⚡ โปรโมชั่นพิเศษ! รับสิทธิ์เลย",
   contents: {
     type: "bubble",
     size: "mega",
+
+    /* Glow ทั้ง Bubble */
+    styles: {
+      body: { backgroundColor: "#0a0e1a" },
+      footer: { backgroundColor: "#0a0e1a" }
+    },
+
     hero: {
       type: "image",
       url: "https://img5.pic.in.th/file/secure-sv1/image---2025-12-06T115418.141.png",
@@ -152,23 +163,31 @@ const flexMessage = {
     body: {
       type: "box",
       layout: "vertical",
-      backgroundColor: "#0d1220",
+      backgroundColor: "#0a0e1a",
+      cornerRadius: "lg",
       paddingAll: "16px",
+
+      /* 🌟 เส้นขอบ + Glow รอบ FLEX */
+      borderWidth: "3px",
+      borderColor: "#6a00ff",
+      shadowColor: "#00eaff",
+      shadow: true,
+
       contents: [
         {
           type: "text",
-          text: "💎 โปรพิเศษสำหรับคุณ!",
+          text: "⚡ โปรแรงสำหรับคุณ!",
           weight: "bold",
           size: "lg",
-          color: "#ffd700",
+          color: "#00eaff",
           align: "center"
         },
         {
           type: "text",
-          text: "กดปุ่มด้านล่างเพื่อเข้าร่วมกิจกรรม & รับสิทธิ์ทันที",
+          text: "กดเพื่อเข้าร่วมกิจกรรม & รับสิทธิ์ทันที",
           wrap: true,
           align: "center",
-          color: "#d8eaff",
+          color: "#cfe9ff",
           margin: "md"
         }
       ]
@@ -177,17 +196,16 @@ const flexMessage = {
     footer: {
       type: "box",
       layout: "vertical",
-      backgroundColor: "#0d1220",
-      spacing: "md",
+      backgroundColor: "#0a0e1a",
       paddingAll: "16px",
       contents: [
         {
           type: "button",
           style: "primary",
-          color: "#ffd700",
+          color: "#6a00ff",
           action: {
             type: "uri",
-            label: "✨ เข้าร่วมกิจกรรม",
+            label: "🔮 เข้าร่วมกิจกรรม",
             uri: "https://porchess.carrd.co/"
           }
         }
@@ -201,6 +219,10 @@ async function initLiff(){
 }
 
 async function shareFlex(){
+  if (!liff.isInClient()) {
+    alert("⚠ กรุณาเปิดผ่านแอป LINE เพื่อแชร์");
+    return;
+  }
   await liff.shareTargetPicker([flexMessage]);
 }
 
