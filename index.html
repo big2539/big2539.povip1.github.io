@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>แชร์เพื่อรับสิทธิ์</title>
+
+<script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Prompt', sans-serif;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        background: #000;
+    }
+
+    /* 🌈 พื้นหลังนีออน + แสงวิ่ง */
+    body::before {
+        content: "";
+        position: absolute;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle at center, #5500ff44, #000000 70%),
+                    conic-gradient(#ff00cc, #ff8800, #ffee00, #00ff88, #0088ff, #bb00ff, #ff00cc);
+        filter: blur(80px);
+        animation: neonMove 10s linear infinite;
+    }
+
+    @keyframes neonMove {
+        0% { transform: rotate(0deg) scale(1); }
+        50% { transform: rotate(180deg) scale(1.2); }
+        100% { transform: rotate(360deg) scale(1); }
+    }
+
+    .container {
+        position: relative;
+        width: 90%;
+        max-width: 420px;
+        z-index: 5;
+        text-align: center;
+        animation: fadeIn 1.2s ease-in-out;
+    }
+
+    /* 🔥 กรอบทอง + ไฟวิ่งหลายสี */
+    .rainbow-frame {
+        position: relative;
+        padding: 15px;
+        border-radius: 24px;
+        overflow: hidden;
+        background: #111;
+    }
+
+    .rainbow-frame::before {
+        content: "";
+        position: absolute;
+        inset: -4px;
+        border-radius: 28px;
+        padding: 4px;
+        background: conic-gradient(
+            #ff0055,
+            #ff8800,
+            #ffee00,
+            #00ff55,
+            #00eeff,
+            #6600ff,
+            #ff00cc,
+            #ff0055
+        );
+        animation: spinBorder 4s linear infinite;
+        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        mask-composite: exclude;
+    }
+
+    @keyframes spinBorder {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    .main-img {
+        width: 100%;
+        border-radius: 20px;
+        display: block;
+    }
+
+    /* 🪩 ปุ่ม Crystal Diamond Premium */
+    .diamond-btn {
+        margin-top: 22px;
+        padding: 18px;
+        font-size: 22px;
+        font-weight: 900;
+        border-radius: 18px;
+        text-decoration: none;
+        display: block;
+        color: white;
+        background: linear-gradient(45deg,
+            #00c6ff,
+            #0072ff,
+            #b621fe,
+            #ff00d4,
+            #ff4b2b
+        );
+        background-size: 400% 400%;
+        animation: crystalFlow 5s infinite linear;
+        box-shadow:
+            0 0 25px #66c2ff,
+            inset 0 0 18px #ffffff55;
+        position: relative;
+        overflow: hidden;
+    }
+
+    @keyframes crystalFlow {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    /* 💎 เอฟเฟกต์ประกายเพชร */
+    .diamond-btn::after {
+        content: "✨";
+        position: absolute;
+        font-size: 32px;
+        opacity: 0;
+        transform: scale(0.2);
+        animation: sparkleMove 3s infinite ease-in-out;
+    }
+
+    @keyframes sparkleMove {
+        0%   { top: -10px; left: -10px; opacity: 0;  }
+        40%  { top: -15px; left: 30px; opacity: 1; transform: scale(1); }
+        100% { top: -10px; left: -10px; opacity: 0; transform: scale(0.2); }
+    }
+
+    /* Hover → เพชรแตกประกาย */
+    .diamond-btn:hover {
+        box-shadow: 0 0 40px #ffffffaa;
+        transform: scale(1.03);
+    }
+
+    /* ปุ่มแชร์ */
+    .share-btn {
+        margin-top: 20px;
+        padding: 16px;
+        font-size: 20px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, #ff00e6, #ffaa00);
+        color: #fff;
+        font-weight: 700;
+        box-shadow: 0 0 24px #ff0095;
+        animation: pulseShare 2.5s infinite alternate;
+    }
+
+    @keyframes pulseShare {
+        0% { box-shadow: 0 0 12px #ff0095; }
+        100% { box-shadow: 0 0 26px #ffaa00; }
+    }
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- 🔥 ไฟวิ่ง + กรอบนีออน -->
+    <div class="rainbow-frame">
+        <img src="https://img5.pic.in.th/file/secure-sv1/image---2025-12-06T115418.141.png" class="main-img">
+    </div>
+
+    <!-- 🪩 ปุ่ม Crystal Diamond -->
+    <a href="https://porchess.carrd.co/" class="diamond-btn">💎 เข้าร่วมกิจกรรมพิเศษ</a>
+
+    <!-- 📤 ปุ่มแชร์ -->
+    <div class="share-btn" onclick="shareFlex()">📤 แชร์ให้เพื่อน</div>
+
+</div>
+
+
+<script>
+/* ⭐ Flex พร้อมข้อความโปรโมชั่น */
+const flexMessage = {
+  type: "flex",
+  altText: "🎰 โปรโมชั่นพิเศษ! รับสิทธิ์เลย",
+  contents: {
+    type: "bubble",
+    size: "mega",
+
+    hero: {
+      type: "image",
+      url: "https://img5.pic.in.th/file/secure-sv1/image---2025-12-06T115418.141.png",
+      size: "full",
+      aspectRatio: "1:1",
+      aspectMode: "cover",
+      backgroundColor: "#000000"
+    },
+
+    body: {
+      type: "box",
+      layout: "vertical",
+      paddingAll: "16px",
+      backgroundColor: "#0d1220",
+      contents: [
+        {
+          type: "text",
+          text: "💎 โปรโมชั่นพิเศษสำหรับคุณ!",
+          weight: "bold",
+          size: "lg",
+          color: "#ffd700",
+          align: "center"
+        },
+        {
+          type: "text",
+          text: "สมัครสมาชิกหรือกดปุ่มด้านล่างเพื่อรับสิทธิ์โบนัส & เข้าร่วมกิจกรรม",
+          wrap: true,
+          color: "#e0e6f5",
+          size: "sm",
+          align: "center",
+          margin: "md"
+        }
+      ]
+    },
+
+    footer: {
+      type: "box",
+      layout: "vertical",
+      spacing: "md",
+      paddingAll: "14px",
+      backgroundColor: "#0b101c",
+      contents: [
+        {
+          type: "button",
+          style: "primary",
+          color: "#ffd700",
+          action: {
+            type: "uri",
+            label: "✨ เข้าร่วมกิจกรรม",
+            uri: "https://porchess.carrd.co/"
+          }
+        }
+      ]
+    },
+
+    styles: {
+      bubble: {
+        backgroundColor: "#000000",
+        borderColor: "#ffd700",
+        borderWidth: "4px",
+        cornerRadius: "20px"
+      }
+    }
+  }
+};
+
+
+async function shareFlex() {
+    await liff.init({ liffId: "2008637844-YZWMePwa" });
+    await liff.shareTargetPicker([flexMessage]);
+}
+</script>
+
+</body>
+</html>
