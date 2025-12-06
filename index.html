@@ -1,236 +1,313 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>แชร์เพื่อรับสิทธิ์</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>แชร์เพื่อรับสิทธิ์ (Neon Flex)</title>
 
 <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 
 <style>
-/* ========================= */
-/* ⚡ พื้นหลังลายสายฟ้า + Glow */
-/* ========================= */
-body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Prompt', sans-serif;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    background: #05060d;
-}
+  :root{
+    --neon-a: #00eaff;
+    --neon-b: #7a00ff;
+    --bg:#050518;
+  }
+  html,body{height:100%;margin:0;font-family:Prompt,system-ui,Arial;}
+  body{
+    background: radial-gradient(ellipse at 20% 10%, rgba(122,0,255,0.12), transparent 6%),
+                radial-gradient(ellipse at 80% 90%, rgba(0,234,255,0.08), transparent 6%),
+                var(--bg);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+  }
 
-/* เลเยอร์ลายสายฟ้า */
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background-image:
-        url('https://i.ibb.co/3vHqF0M/lightning-blue-purple.png');
-    background-size: cover;
-    background-position: center;
-    opacity: 0.25;
-    z-index: 0;
-}
+  /* lightning patterned background (subtle) */
+  .bg-pattern{
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background-image: radial-gradient(rgba(255,255,255,0.01) 1px, transparent 1px);
+    background-size: 40px 40px;
+    mix-blend-mode: overlay;
+    filter: contrast(120%) brightness(120%);
+    opacity:0.35;
+  }
 
-/* เลเยอร์ Glow เคลื่อนไหว */
-body::after {
-    content: "";
-    position: fixed;
-    width: 220%;
-    height: 220%;
-    background: conic-gradient(#7300ff, #0055ff, #00ddff, #00ffaa, #0055ff, #9900ff);
-    filter: blur(180px);
-    animation: neonMove 25s linear infinite;
-    opacity: 0.25;
-    z-index: 0;
-}
+  .card {
+    position:relative;
+    width: 92%;
+    max-width:460px;
+    z-index:2;
+    text-align:center;
+    padding:18px;
+    border-radius:18px;
+    backdrop-filter: blur(6px) saturate(120%);
+    box-shadow:
+      0 8px 40px rgba(0,0,0,0.6),
+      0 0 40px rgba(0,234,255,0.06);
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border: 1px solid rgba(255,255,255,0.03);
+  }
 
-@keyframes neonMove {
-    0% { transform: rotate(0deg) scale(1); }
-    50% { transform: rotate(180deg) scale(1.3); }
-    100% { transform: rotate(360deg) scale(1); }
-}
+  .preview {
+    position:relative;
+    border-radius:16px;
+    overflow:hidden;
+    padding:6px;
+    background: linear-gradient(135deg, rgba(0,234,255,0.06), rgba(122,0,255,0.06));
+    box-shadow: 0 0 40px rgba(106,0,255,0.08), 0 0 8px rgba(0,234,255,0.05);
+  }
 
-/* ========================= */
-/* กล่องหลัก */
-/* ========================= */
-.container {
-    position: relative;
-    width: 90%;
-    max-width: 420px;
-    z-index: 10;
-    text-align: center;
-}
+  .preview-inner{
+    border-radius:12px;
+    overflow:hidden;
+    position:relative;
+    background:linear-gradient(180deg, #071124, #06101b);
+  }
 
-/* ========================= */
-/* 🔥 กรอบภาพไฟวิ่ง */
-/* ========================= */
-.img-frame {
-    position: relative;
-    padding: 10px;
-    border-radius: 24px;
-    overflow: hidden;
-}
+  .preview img{
+    display:block;
+    width:100%;
+    height:auto;
+  }
 
-.img-frame::before {
-    content: "";
-    position: absolute;
-    inset: -5px;
-    border-radius: 28px;
-    background: conic-gradient(#00eaff, #8b00ff, #00eaff);
-    animation: spinBorder 4s linear infinite;
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    mask-composite: exclude;
-}
+  /* neon badge & title */
+  h1{color:var(--neon-a); margin:12px 0 6px; font-size:20px; text-shadow:0 0 6px rgba(0,234,255,0.25);}
+  p.sub{color:#cfeaff; margin:0 0 12px; font-size:13px;}
 
-@keyframes spinBorder {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
+  .btn-row{display:flex; gap:12px; margin-top:14px;}
+  .btn {
+    flex:1;
+    padding:14px 12px;
+    border-radius:12px;
+    font-weight:700;
+    cursor:pointer;
+    border:none;
+    color:white;
+    background: linear-gradient(135deg, var(--neon-b), var(--neon-a));
+    box-shadow: 0 6px 26px rgba(122,0,255,0.14), 0 0 20px rgba(0,234,255,0.06);
+    transition: transform .12s ease, box-shadow .12s ease;
+  }
+  .btn:active{transform:translateY(1px) scale(.998);}
+  .btn.alt{
+    background: linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+    color: #eaf6ff;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+    border:1px solid rgba(255,255,255,0.03);
+  }
 
-.main-img {
-    width: 100%;
-    border-radius: 20px;
-    display: block;
-}
+  .hint { margin-top:10px; font-size:12px; color:#9fc9ff; }
 
-/* ========================= */
-/* ปุ่มแชร์ */
-/* ========================= */
-.share-btn {
-    width: 100%;
-    margin-top: 20px;
-    padding: 18px;
-    font-size: 22px;
-    border-radius: 18px;
-    background: linear-gradient(135deg, #6a00ff, #00eaff);
-    color: #fff;
-    font-weight: 900;
-    box-shadow: 0 0 25px #6a00ff;
-    animation: pulseShare 2s infinite alternate;
-}
-
-@keyframes pulseShare {
-    0% { box-shadow: 0 0 12px #6a00ff; }
-    100% { box-shadow: 0 0 35px #00eaff; }
-}
+  /* small status bar */
+  #status{font-size:13px;color:#bfe9ff;margin-top:8px;}
+  pre{white-space:pre-wrap; word-break:break-word; text-align:left; font-size:12px; color:#bfe9ff; background:transparent; border-radius:8px;}
 </style>
 </head>
-
 <body>
+  <div class="bg-pattern" aria-hidden="true"></div>
 
-<div class="container">
-
-    <div class="img-frame">
-        <img src="https://img5.pic.in.th/file/secure-sv1/image---2025-12-06T115418.141.png"
-             class="main-img">
+  <div class="card" role="main">
+    <div class="preview" id="previewWrap">
+      <div class="preview-inner" id="previewInner">
+        <!-- preview image with neon glow applied on page (not the flex) -->
+        <img id="pagePreview" src="https://img5.pic.in.th/file/secure-sv1/image---2025-12-06T115418.141.png" alt="promotion image">
+      </div>
     </div>
 
-    <div class="share-btn" id="shareBtn">📤 แชร์ให้เพื่อน</div>
-</div>
+    <h1>⚡ แชร์เพื่อรับสิทธิ์ — Neon Edition</h1>
+    <p class="sub">กดปุ่มด้านล่างเพื่อแชร์ Flex (มีเงานีออนรอบภาพ)</p>
+
+    <div class="btn-row">
+      <button class="btn" id="shareBtn">📤 แชร์เป็น Flex</button>
+      <button class="btn alt" id="copyBtn">📋 คัดลอกข้อความ (Fallback)</button>
+    </div>
+
+    <div id="status">กำลังตรวจสอบสภาพแวดล้อม LIFF…</div>
+    <div class="hint">หมายเหตุ: การส่ง Flex ต้องเปิดผ่านแอป LINE (LIFF inside client). ถ้าเปิดจากเบราว์เซอร์ คุณสามารถคัดลอกข้อความแล้วแชร์แบบปกติได้</div>
+  </div>
 
 <script>
+/*
+  หลักการสำคัญ:
+  - ตรวจสอบ liff.init -> isInClient -> isApiAvailable('shareTargetPicker')
+  - สร้าง SVG data URL ที่ทำหน้าที่เป็นภาพ "มีเงานีออนรอบๆ" โดยซ้อนภาพ 2 ชั้น (เบลอด้านหลัง + ชัดด้านหน้า)
+  - ใส่ dataUrl เป็น hero.image.url ของ flex message
+  - หากไม่อยู่ใน LINE client ให้แจ้งผู้ใช้และมี fallback (คัดลอกข้อความ)
+*/
+
 const LIFF_ID = "2008637844-YZWMePwa";
+// ภาพต้นฉบับ (เปลี่ยนได้ตามต้องการ)
+const originalImageUrl = "https://img5.pic.in.th/file/secure-sv1/image---2025-12-06T115418.141.png";
 
-/* ========================= */
-/* ⭐ FLEX แบบ Glow ฟ้า–ม่วง */
-/* ========================= */
-const flexMessage = {
-  type: "flex",
-  altText: "⚡ โปรโมชั่นพิเศษ! รับสิทธิ์เลย",
-  contents: {
-    type: "bubble",
-    size: "mega",
+// ฟังก์ชันสร้าง SVG data URL ที่ซ้อนภาพเบลอเป็น glow ด้านหลังแล้ววางภาพปกติด้านหน้า
+function makeNeonSVGDataUrl(imgUrl, width=1200, height=1200, glowColor='#00eaff'){
+  // สร้าง SVG string — เบลอด้านหลัง ด้วย feGaussianBlur และ slight scale
+  const svg = `
+  <svg xmlns='http://www.w3.org/2000/svg' width='${width}' height='${height}' viewBox='0 0 ${width} ${height}'>
+    <defs>
+      <filter id='g'>
+        <feGaussianBlur stdDeviation='30' result='b'/>
+        <feColorMatrix type='matrix' values='0 0 0 0 0.0  0 0 0 0 0.92  0 0 0 0 1  0 0 0 0.9' />
+      </filter>
+    </defs>
 
-    /* Glow ทั้ง Bubble */
-    styles: {
-      body: { backgroundColor: "#0a0e1a" },
-      footer: { backgroundColor: "#0a0e1a" }
-    },
+    <!-- blurred layer (slightly scaled) -->
+    <g transform='translate(0,0) scale(1.06)'>
+      <image x='0' y='0' width='${width}' height='${height}' preserveAspectRatio='xMidYMid slice' href='${imgUrl}' filter='url(#g)' opacity='0.9'/>
+    </g>
 
-    hero: {
-      type: "image",
-      url: "https://img5.pic.in.th/file/secure-sv1/image---2025-12-06T115418.141.png",
-      size: "full",
-      aspectRatio: "1:1",
-      aspectMode: "cover"
-    },
+    <!-- colored glow elliptical overlay -->
+    <ellipse cx='${width/2}' cy='${height/2}' rx='${width*0.45}' ry='${height*0.35}' fill='${glowColor}' opacity='0.14'/>
 
-    body: {
-      type: "box",
-      layout: "vertical",
-      backgroundColor: "#0a0e1a",
-      cornerRadius: "lg",
-      paddingAll: "16px",
+    <!-- main sharp image on top -->
+    <image x='0' y='0' width='${width}' height='${height}' preserveAspectRatio='xMidYMid slice' href='${imgUrl}' />
 
-      /* 🌟 เส้นขอบ + Glow รอบ FLEX */
-      borderWidth: "3px",
-      borderColor: "#6a00ff",
-      shadowColor: "#00eaff",
-      shadow: true,
-
-      contents: [
-        {
-          type: "text",
-          text: "⚡ โปรแรงสำหรับคุณ!",
-          weight: "bold",
-          size: "lg",
-          color: "#00eaff",
-          align: "center"
-        },
-        {
-          type: "text",
-          text: "กดเพื่อเข้าร่วมกิจกรรม & รับสิทธิ์ทันที",
-          wrap: true,
-          align: "center",
-          color: "#cfe9ff",
-          margin: "md"
-        }
-      ]
-    },
-
-    footer: {
-      type: "box",
-      layout: "vertical",
-      backgroundColor: "#0a0e1a",
-      paddingAll: "16px",
-      contents: [
-        {
-          type: "button",
-          style: "primary",
-          color: "#6a00ff",
-          action: {
-            type: "uri",
-            label: "🔮 เข้าร่วมกิจกรรม",
-            uri: "https://porchess.carrd.co/"
-          }
-        }
-      ]
-    }
-  }
-};
-
-async function initLiff(){
-  await liff.init({ liffId: LIFF_ID });
+    <!-- optional subtle frame -->
+    <rect x='8' y='8' width='${width-16}' height='${height-16}' rx='18' ry='18' fill='none' stroke='rgba(255,255,255,0.02)' stroke-width='6'/>
+  </svg>
+  `;
+  // encode SVG
+  const encoded = encodeURIComponent(svg).replace(/'/g,'%27').replace(/"/g,'%22');
+  return `data:image/svg+xml;charset=utf-8,${encoded}`;
 }
 
-async function shareFlex(){
-  if (!liff.isInClient()) {
-    alert("⚠ กรุณาเปิดผ่านแอป LINE เพื่อแชร์");
+// สร้าง data URL (เรียกครั้งเดียว)
+const neonDataUrl = makeNeonSVGDataUrl(originalImageUrl);
+
+// ใส่ preview ในหน้า (ให้คนดูว่าเป็น glow)
+document.getElementById('pagePreview').src = neonDataUrl;
+
+// เตรียม flex message ที่จะส่ง
+function makeFlexMessage(imageUrl){
+  return {
+    type: "flex",
+    altText: "⚡ โปรโมชั่นพิเศษ! รับสิทธิ์เลย",
+    contents: {
+      type: "bubble",
+      size: "mega",
+      hero: {
+        type: "image",
+        url: imageUrl,            // ใส่ SVG data URL ที่มี glow
+        size: "full",
+        aspectRatio: "1:1",
+        aspectMode: "cover"
+      },
+      body: {
+        type: "box",
+        layout: "vertical",
+        paddingAll: "16px",
+        backgroundColor: "#071028",
+        contents: [
+          {
+            type: "text",
+            text: "⚡ โปรแรง — รับสิทธิ์ทันที",
+            weight: "bold",
+            size: "xl",
+            color: "#bfefff",
+            align: "center"
+          },
+          {
+            type: "text",
+            text: "กดปุ่มด้านล่างเพื่อเข้าร่วมกิจกรรม",
+            size: "sm",
+            color: "#d7efff",
+            align: "center",
+            wrap: true,
+            margin: "md"
+          }
+        ]
+      },
+      footer: {
+        type: "box",
+        layout: "vertical",
+        paddingAll: "12px",
+        backgroundColor: "#071028",
+        contents: [
+          {
+            type: "button",
+            style: "primary",
+            color: "#6a00ff",
+            action: {
+              type: "uri",
+              label: "🔮 เข้าร่วมกิจกรรม",
+              uri: "https://porchess.carrd.co/"
+            }
+          }
+        ]
+      }
+    }
+  };
+}
+
+// UI elements
+const statusEl = document.getElementById('status');
+const shareBtn = document.getElementById('shareBtn');
+const copyBtn = document.getElementById('copyBtn');
+
+async function boot(){
+  statusEl.textContent = "กำลังเริ่ม LIFF...";
+  try{
+    await liff.init({ liffId: LIFF_ID });
+    statusEl.textContent = "LIFF init เสร็จแล้ว — ตรวจสอบสภาพแวดล้อม...";
+  }catch(err){
+    console.error('liff.init error', err);
+    statusEl.textContent = "ไม่สามารถเรียกใช้ LIFF ได้ — ตรวจสอบ LIFF ID หรือการเชื่อมต่อ";
     return;
   }
-  await liff.shareTargetPicker([flexMessage]);
+
+  // ตรวจสอบว่าอยู่ใน LINE client หรือไม่
+  const inClient = liff.isInClient();
+  const canShare = liff.isApiAvailable && liff.isApiAvailable('shareTargetPicker');
+
+  if(inClient && canShare){
+    statusEl.textContent = "พร้อมแชร์ Flex — เปิดผ่านแอป LINE อยู่ใน client ✅";
+  } else if(inClient && !canShare){
+    statusEl.innerHTML = "อยู่ใน LINE แต่ shareTargetPicker <strong>ไม่พร้อมใช้งาน</strong> (LIFF version หรือ platform อาจไม่รองรับ)";
+  } else {
+    statusEl.innerHTML = "กำลังใช้งานนอกแอป LINE — ฟีเจอร์แชร์ Flex จะใช้งานไม่ได้จากเบราว์เซอร์ปกติ";
+  }
+
+  // กำหนดพฤติกรรมปุ่มแชร์
+  shareBtn.addEventListener('click', async ()=>{
+    // ตรวจสอบก่อน
+    if(!liff.isInClient()){
+      alert("⚠ เพื่อส่ง Flex กรุณาเปิดหน้านี้จากในแอป LINE (LIFF inside client). หรือใช้ปุ่มคัดลอกเป็น fallback.");
+      return;
+    }
+
+    if(!liff.isApiAvailable('shareTargetPicker')){
+      alert("⚠ คำสั่ง shareTargetPicker ไม่พร้อมใช้งานบน LIFF ตัวนี้");
+      return;
+    }
+
+    // สร้างข้อความ flex (ใช้ neonDataUrl เป็นภาพ)
+    const msg = makeFlexMessage(neonDataUrl);
+
+    try{
+      await liff.shareTargetPicker([msg]);
+      statusEl.textContent = "แชร์เรียบร้อย (shareTargetPicker ส่งแล้ว)";
+    }catch(e){
+      console.error('share error', e);
+      statusEl.textContent = "เกิดข้อผิดพลาดขณะแชร์: " + (e.message || e.toString());
+      alert("ไม่สามารถแชร์ได้: " + (e.message || e));
+    }
+  });
+
+  // ปุ่มคัดลอกข้อความ fallback (สำหรับผู้ใช้ที่ไม่อยู่ใน LINE)
+  copyBtn.addEventListener('click', ()=>{
+    const fallbackText = "รับสิทธิ์พิเศษ! คลิกเลย: https://porchess.carrd.co/ — แชร์ให้เพื่อนเพื่อรับสิทธิ์ 🎁";
+    navigator.clipboard?.writeText(fallbackText).then(()=>{
+      alert("คัดลอกข้อความสำเร็จ ✅ คุณสามารถวางเพื่อส่งในแอป LINE หรือช่องทางอื่น");
+    }).catch(()=>{
+      prompt("คัดลอกข้อความด้วยตนเอง (Ctrl+C):", fallbackText);
+    });
+  });
 }
 
-window.onload = async ()=>{
-  await initLiff();
-  document.getElementById("shareBtn").onclick = shareFlex;
-};
-</script>
+// เรียกบูท
+boot();
 
+</script>
 </body>
 </html>
