@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>แชร์ Flex วิบวับ — LIFF</title>
+  <title>แจกฟรีสุดพิเศษ100</title>
   <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 
   <style>
@@ -13,118 +13,115 @@
       margin: 0;
       padding: 0;
       font-family: 'Prompt', sans-serif;
-      background: radial-gradient(circle at top, #1a0033, #060613 70%);
+      background: linear-gradient(160deg, #0c001c, #12002e 60%, #0a0015);
       color: #fff;
-      height: 100vh;
       overflow-x: hidden;
     }
 
-    /* ===== Glow Background ===== */
+    /* ==== Soft Light Background (เบาขึ้น ไม่กินแรง) ==== */
     .bg-glow {
       position: fixed;
-      top: -200px;
-      left: -200px;
-      width: 520px;
-      height: 520px;
-      background: radial-gradient(circle, rgba(180,0,255,0.6), rgba(0,0,0,0));
-      filter: blur(90px);
-      animation: floatGlow 6s infinite alternate ease-in-out;
+      top: -150px;
+      right: -150px;
+      width: 360px;
+      height: 360px;
+      background: radial-gradient(circle, rgba(255,0,255,0.35), rgba(0,0,0,0));
+      filter: blur(60px);
+      pointer-events: none;
+      opacity: 0.6;
+      animation: softFloat 5s infinite ease-in-out alternate;
     }
-    @keyframes floatGlow {
+    @keyframes softFloat {
       0% { transform: translate(0,0); }
-      100% { transform: translate(80px,60px); }
+      100% { transform: translate(-40px,30px); }
     }
 
-    /* ===== Card Glow Frame ===== */
+    /* ==== Card 3D Deep Glow ==== */
     .card {
       width: 90%;
       max-width: 420px;
-      margin: 45px auto;
+      margin: 55px auto;
       padding: 20px;
-      border-radius: 22px;
+      border-radius: 24px;
       background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(12px);
       position: relative;
-      backdrop-filter: blur(14px);
-      border: 2px solid rgba(255,255,255,0.1);
-      box-shadow: 
-        0 0 20px rgba(255,0,255,0.4),
-        0 0 40px rgba(138,43,226,0.4),
-        inset 0 0 25px rgba(255,255,255,0.05);
+
+      border: 1px solid rgba(255,255,255,0.15);
+      box-shadow:
+        inset 0 0 18px rgba(255,255,255,0.04),
+        inset 0 -6px 12px rgba(0,0,0,0.4),
+        0 0 35px rgba(162,0,255,0.4),
+        0 25px 40px rgba(0,0,0,0.5);
     }
 
+    /* ขอบนูนลึกวิบวับ */
     .card::before {
       content: "";
       position: absolute;
-      top: -3px;
-      left: -3px;
-      right: -3px;
-      bottom: -3px;
-      background: linear-gradient(135deg, #ff00ff, #7700ff, #00e5ff);
+      top: -3px; left: -3px; right: -3px; bottom: -3px;
+      border-radius: 24px;
+      background: linear-gradient(135deg,#ff00ff,#8a2be2,#00e5ff);
+      filter: blur(10px);
+      opacity: 0.85;
       z-index: -1;
-      border-radius: 22px;
-      filter: blur(16px);
-      animation: neonBorder 6s infinite linear;
     }
 
-    @keyframes neonBorder {
-      0% { filter: blur(12px) hue-rotate(0deg);}
-      100% { filter: blur(12px) hue-rotate(360deg);}
-    }
-
-    /* ===== Image Glow ===== */
+    /* ==== Image Glow 3D ==== */
     .preview-img img {
       width: 100%;
-      border-radius: 16px;
+      border-radius: 18px;
       box-shadow:
-        0 0 18px #ff00ff80,
-        0 0 40px #00e1ff60,
-        0 0 90px #7700ff50;
+        0 0 14px #ff00ffa8,
+        0 0 34px #00eaff88,
+        0 0 60px #7600ff80;
     }
 
     h1 {
       text-align: center;
-      margin: 18px 0 12px;
-      font-size: 22px;
-      letter-spacing: 1px;
-      text-shadow: 0 0 12px #ff00ff, 0 0 25px #00eaff;
+      margin: 16px 0 10px;
+      font-size: 23px;
+      text-shadow: 0 0 10px #ff00ff, 0 0 18px #00eaff;
     }
 
     p {
       font-size: 15px;
-      color: #e3dfff;
       text-align: center;
-      margin: 8px 0 20px;
+      color: #e6daff;
     }
 
-    /* ===== Neon Button ===== */
+    /* ==== NEW: ปุ่มนูนลึก 3D Neon ==== */
     .btn {
       width: 100%;
-      padding: 14px;
+      padding: 16px;
+      margin-top: 18px;
       border-radius: 14px;
-      font-size: 18px;
+      font-size: 19px;
       font-weight: 600;
-      text-align: center;
+      color: #fff;
       border: none;
       cursor: pointer;
-      background: linear-gradient(90deg, #8500ff, #00e1ff);
+
+      background: linear-gradient(90deg,#9400ff,#00e1ff);
       box-shadow:
-        0 0 12px #8500ff,
-        0 0 22px #00e1ff,
-        0 0 40px #8500ff80;
-      transition: 0.3s;
+        inset 0 -4px 10px rgba(0,0,0,0.45),
+        inset 0 4px 10px rgba(255,255,255,0.25),
+        0 0 18px #bb00ff,
+        0 0 45px #00eaff;
+      transition: 0.25s;
     }
     .btn:hover {
+      transform: translateY(-4px);
       box-shadow:
-        0 0 25px #ff00f6,
-        0 0 55px #00f7ff,
-        0 0 80px #7700ff;
-      transform: translateY(-3px);
+        inset 0 -4px 6px rgba(0,0,0,0.5),
+        0 0 25px #ff00ff,
+        0 0 70px #00f7ff;
     }
 
     .small {
-      text-align: center;
       margin-top: 10px;
-      color: #b8b8d9;
+      text-align: center;
+      color: #bfbfe8;
       font-size: 13px;
     }
   </style>
@@ -141,85 +138,90 @@
     <h1>แจกฟรี100บาท✨</h1>
     <p>แตะปุ่มด้านล่างเพื่อแชร์ไปยังเพื่อนหรือกลุ่มใน LINE</p>
 
-    <button id="shareBtn" class="btn">✨กดแชร์เลย!</button>
-
+    <button id="shareBtn" class="btn">✨ กดแชร์เลย!</button>
     <div id="notInLine" class="small"></div>
   </div>
 
-  <script>
-    const LIFF_ID = "2008637844-YZWMePwa";
-    const HERO_IMAGE = "https://img5.pic.in.th/file/secure-sv1/image---2025-12-06T115418.141.png";
-    const BUTTON_URI = "https://porchess.carrd.co/";
+<script>
+const LIFF_ID = "2008637844-YZWMePwa";
+const HERO_IMAGE = "https://img5.pic.in.th/file/secure-sv1/image---2025-12-06T115418.141.png";
+const BUTTON_URI = "https://porchess.carrd.co/";
 
-    // FLEX แบบวิบวับ
-    function buildFlex() {
-      return {
-        type: "flex",
-        altText: "พิเศษ!เป็นสมาชิกเราวันนี้รับไปเลย100.-ฟรีๆ✨",
-        contents: {
-          type: "bubble",
-          size: "mega",
-          hero: {
-            type: "image",
-            url: HERO_IMAGE,
-            size: "full",
-            aspectRatio: "20:13",
-            aspectMode: "cover"
+/* === FLEX แบบกรอบ 3D นูนลึก + Neon === */
+function buildFlex() {
+  return {
+    type: "flex",
+    altText: "พิเศษ! รับฟรี 100.- ทันที ✨",
+    contents: {
+      type: "bubble",
+      size: "mega",
+      hero: {
+        type: "image",
+        url: HERO_IMAGE,
+        size: "full",
+        aspectRatio: "1:1",
+        aspectMode: "cover"
+      },
+      body: {
+        type: "box",
+        layout: "vertical",
+        backgroundColor: "#200035",
+        cornerRadius: "lg",
+        paddingAll: "20px",
+        borderColor: "#bb00ff",
+        borderWidth: "2px",
+        contents: [
+          {
+            type: "text",
+            text: "🔥 รับฟรี 100 บาท 🔥",
+            size: "xl",
+            weight: "bold",
+            color: "#ff00ff"
           },
-          body: {
-            type: "box",
-            layout: "vertical",
-            contents: [
-              {
-                type: "text",
-                text: "สุดพิเศษแจกฟรี 100.-บาท",
-                weight: "bold",
-                size: "xl",
-                color: "#6a00ff"
-              },
-              {
-                type: "text",
-                text: "แตะปุ่มด้านล่างเพื่อรับโบนัสฟรี!",
-                margin: "md",
-                color: "#333333"
-              }
-            ]
-          },
-          footer: {
-            type: "box",
-            layout: "vertical",
-            contents: [
-              {
-                type: "button",
-                style: "primary",
-                color: "#7f00ff",
-                action: {
-                  type: "uri",
-                  label: "เข้ารับฟรี100.-บาท ✨",
-                  uri: BUTTON_URI
-                }
-              }
-            ]
+          {
+            type: "text",
+            text: "กดปุ่มด้านล่างเพื่อรับสิทธิ์ทันที!",
+            color: "#e2e2e2",
+            margin: "md"
           }
-        }
-      };
-    }
-
-    async function initLIFF() {
-      await liff.init({ liffId: LIFF_ID });
-
-      if (!liff.isInClient()) {
-        document.getElementById("notInLine").innerHTML =
-          "⚠ กรุณาเปิดหน้านี้ผ่านแอป LINE เพื่อให้ปุ่มแชร์ทำงานได้";
+        ]
+      },
+      footer: {
+        type: "box",
+        layout: "vertical",
+        spacing: "md",
+        contents: [
+          {
+            type: "button",
+            style: "primary",
+            color: "#9b00ff",
+            action: {
+              type: "uri",
+              label: "✨ รับฟรีตอนนี้",
+              uri: BUTTON_URI
+            }
+          }
+        ]
       }
     }
+  };
+}
 
-    document.getElementById("shareBtn").onclick = async () => {
-      await liff.shareTargetPicker([buildFlex()]);
-    };
+async function initLIFF() {
+  await liff.init({ liffId: LIFF_ID });
 
-    initLIFF();
-  </script>
+  if (!liff.isInClient()) {
+    document.getElementById("notInLine").innerHTML =
+      "⚠ กรุณาเปิดหน้านี้ผ่านแอป LINE เพื่อให้ปุ่มแชร์ทำงานได้";
+  }
+}
+
+document.getElementById("shareBtn").onclick = async () => {
+  await liff.shareTargetPicker([buildFlex()]);
+};
+
+initLIFF();
+</script>
 
 </body>
 </html>
